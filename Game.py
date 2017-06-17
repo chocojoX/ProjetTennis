@@ -4,7 +4,7 @@ from Point import Point
 
 
 class Game:
-    def __init__(self, player1, player2, service=0, verbose=True):
+    def __init__(self, player1, player2, service=0, verbose=0):
         self.score1 = 0
         self.score2 = 0
         self.p1 = player1
@@ -12,19 +12,19 @@ class Game:
         self.order = [0, 15, 30, 40]
         self.n_points = len(self.order)
         self.status = -1
-        self.service = 0
+        self.service = service
         self.verbose = verbose
 
     def run(self):
         while self.status==-1:
-            point = Point(self.p1, self.p2)
+            point = Point(self.p1, self.p2, service=self.service)
             res = point.run()
             if res==0:
                 self.score1 += 1
             else:
                 self.score2 += 1
             self.update_status()
-            if self.verbose:
+            if self.verbose>0:
                 time.sleep(0.)
                 self.print_score()
         if self.score1 >self.score2:

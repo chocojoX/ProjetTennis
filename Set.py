@@ -4,7 +4,7 @@ import time
 
 
 class Set:
-    def __init__(self, player1, player2, first_serve=0, tie_break=False):
+    def __init__(self, player1, player2, first_serve=0, tie_break=False, verbose=1):
         self.tie_break=tie_break
         self.p1 = player1
         self.p2 = player2
@@ -13,20 +13,22 @@ class Set:
         self.first_serve = first_serve
         self.service = first_serve
         self.status = -1  #-1 is ongoing, -0.5 is tie_break 0 is won by player1, 1 is won by player2
+        self.verbose=verbose
 
 
     def run(self):
         while self.status <0:
             self.service = (self.score1 + self.score2 + self.first_serve) % 2
-            game = Game(self.p1, self.p2, service=self.service)
+            game = Game(self.p1, self.p2, service=self.service, verbose=self.verbose-1)
             res = game.run()
             if res == 0:
                 self.score1 = self.score1 + 1
             else:
                 self.score2 = self.score2 + 1
             self.update_status()
-            print("%i - %i" %(self.score1, self.score2))
-            time.sleep(0.5)
+            if self.verbose>0:
+                print("%i - %i" %(self.score1, self.score2))
+                time.sleep(0.2)
         return self.status
 
 
@@ -45,9 +47,9 @@ class Set:
                     self.status = -1
 
             else:
-                if self.score1>self.score2-1:
+                if self.score1>self.score2+1:
                     self.status = 0
-                elif self.score2>self.score1-1:
+                elif self.score2>self.score1+1:
                     self.status = 1
                 else:
                     self.status = -1
