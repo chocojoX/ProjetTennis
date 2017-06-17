@@ -25,7 +25,7 @@ class Game:
                 self.score2 += 1
             self.update_status()
             if self.verbose:
-                time.sleep(0.5)
+                time.sleep(0.)
                 self.print_score()
         if self.score1 >self.score2:
             return 0
@@ -56,10 +56,10 @@ class Game:
     def update_status(self):
         # Sets game state to 0 if player 1 has won the game, 1 if player 2 has won the game, -1 if the game is not yet finished
         if self.score1>self.n_points-1 and self.score1>self.score2+1:
-            self.state = 0
+            self.status = 0
 
         elif self.score2>self.n_points-1 and self.score2>self.score1+1:
-            self.state = 1
+            self.status = 1
 
         else:
-            self.state = -1
+            self.status = -1
