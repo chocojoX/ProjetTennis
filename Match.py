@@ -15,7 +15,10 @@ class Match():
 
     def run(self):
         while self.status<0:
-            current_set = Set.Set(self.p1, self.p2, verbose=self.verbose-1, first_serve=self.first_serve)
+            tie_break=False
+            if len(self.score)<(2*self.n_sets-2):
+                tie_break=True
+            current_set = Set.Set(self.p1, self.p2, verbose=self.verbose-1, first_serve=self.first_serve, tie_break=tie_break)
             res = current_set.run()
             set_score = [current_set.score1, current_set.score2]
             self.update_first_serve(current_set)
@@ -52,4 +55,4 @@ class Match():
         score_to_print = ""
         for i, score in enumerate(self.score):
             score_to_print = score_to_print + " %i-%i" %(score[0], score[1])
-        print("%s won %s" %(self.p1.name, score_to_print))
+        print("%s won %s" %(self.winner.name, score_to_print))
